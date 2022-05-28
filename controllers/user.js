@@ -34,12 +34,12 @@ const usuariosPost = async (req, res = response) => {
         rol
     });
     //Verificar que el correo exista
-    const existeEmail = await Usuario.findOne({correo});
-    if (existeEmail) {
-        return res.status(400).json({
-            msg: 'Ese correo ya existe!'
-        });
-    }
+    // const existeEmail = await Usuario.findOne({correo});
+    // if (existeEmail) {
+    //     return res.status(400).json({
+    //         msg: 'Ese correo ya existe!'
+    //     });
+    // }
     //Encriptar la contrasena
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt);
