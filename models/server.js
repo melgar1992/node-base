@@ -11,6 +11,8 @@ class Server {
         this.app = express();
         this.route = process.env.PORT;
         this.usuariosPath = '/api/usuarios';
+        this.authPath = '/api/auth';
+
         //Concetar Base de datos
         this.conectarDB();
         //middlewares
@@ -30,6 +32,7 @@ class Server {
         this.app.use(cors());
     }
     routes() {
+        this.app.use(this.authPath, require('../routes/auth'));
         this.app.use(this.usuariosPath, require('../routes/user'));
     }
     listen() {
