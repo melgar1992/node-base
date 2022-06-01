@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const {
     response
 } = require("express");
+const { generarJWT } = require("../helpers/generar-jwt");
 const Usuario = require('../models/usuario');
 
 
@@ -43,12 +44,14 @@ const login = async (req, res = response) => {
 
         res.json({
             msg: 'Login entro',
+            token,
+            usuario
         })
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Hable con el administrador',
         })
     }
 
