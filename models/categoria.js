@@ -1,4 +1,7 @@
-const { Schema, model } = require('mongoose');
+const {
+    Schema,
+    model
+} = require('mongoose');
 
 const CategoriaSchema = Schema({
 
@@ -18,6 +21,13 @@ const CategoriaSchema = Schema({
     }
 
 });
+CategoriaSchema.methods.toJSON = function () {
+    const {
+        __v,
+        estado,
+        ...data
+    } = this.toObject();
+    return data;
+}
 
 module.exports = model('Categoria', CategoriaSchema);
-
