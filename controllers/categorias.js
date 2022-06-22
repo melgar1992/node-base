@@ -4,7 +4,6 @@ const {
 } = require("express");
 const {
     Categoria,
-    Usuario
 } = require("../models");
 
 //obtenerCategorias - paginado - total - populate
@@ -78,8 +77,8 @@ const crearCategoria = async (req = request, res = response) => {
     const categoria = new Categoria(data);
 
     //Guardar en la BD
-
     await categoria.save();
+    
     res.json({
         categoria,
     })
