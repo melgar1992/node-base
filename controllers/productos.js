@@ -12,17 +12,6 @@ const categoria = require("../models/categoria");
 const crearProducto = async (req = request, res = response) => {
 
     const nombre = req.body.nombre.toUpperCase();
-    
-    const productoDB = await Producto.findOne({
-        nombre
-    });
-
-    if (productoDB) {
-        return res.status(400).json({
-            msg: `El producto ${productoDB.nombre}, ya existe `
-        });
-
-    }
     //Generar la data
 
     const data = {
@@ -34,7 +23,7 @@ const crearProducto = async (req = request, res = response) => {
     }
     const producto = new Producto(data);
     //Guardar en la DB
-     await producto.save();
+    await producto.save();
 
     res.json({
         msg: 'crear Producto',
@@ -44,33 +33,67 @@ const crearProducto = async (req = request, res = response) => {
 
 //Obtener todos los productos
 const obtenerProductos = async (req = request, res = response) => {
+    const uid = req.usuario._id;
+
+    const {
+        limite = 5,
+        desde = 0
+    } = req.query;
+
+    const query = {
+        estado: true,
+        usuario: uid,
+    };
+
+    const [total, productos] = await Promise.all([
+        Producto.countDocuments(query).limit(limite),
+        Producto.find(query).populate('usuario', 'nombre').populate('categoria', 'nombre').skip(desde).limit(limite)
+    ]);
+
     res.json({
-        msg: 'obtener productos'
-    })
+        productos,
+        total
+    });
 }
 
 
 //Obtener producto
 const obtenerProducto = async (req = request, res = response) => {
+    const {
+        id
+    } = req.params;
+
+    const producto = await Producto.findById(id).populate('usuario', 'nombre').populate('categoria', 'nombre');
+
     res.json({
-        msg: 'obtener Producto'
-    })
+        producto
+    });
+
+
 }
 
 
 //Editar producto
 const actualizarProducto = async (req = request, res = response) => {
+    const { id } = req.params;
+    const { estado, usuario, ...data } = req.body;
+    data.nombre = data.nombre.toUpperCase();
+    data.usuario = req.usuario._id;
+    const producto = await Producto.findByIdAndUpdate(id, data);
     res.json({
-        msg: 'actualizar Producto'
-    })
+        producto,
+        data,
+    });
 }
 
 
 //Eliminar producto
 
 const productoDelete = async (req = request, res = response) => {
+    const { id } = req.params;
+    const producto = await Producto.findByIdAndUpdate(id, { estado: false });
     res.json({
-        msg: 'eliminar Producto'
+        producto,
     })
 }
 

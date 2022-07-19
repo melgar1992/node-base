@@ -1,33 +1,50 @@
-const { Categoria } = require('../models');
+const { Categoria, Producto } = require('../models');
 const Role = require('../models/role');
 const Usuario = require('../models/usuario');
 
 
-const esRolValido =  async (rol = '') => {
-    const existeRol = await Role.findOne({rol});
+const esRolValido = async (rol = '') => {
+    const existeRol = await Role.findOne({ rol });
     if (!existeRol) {
-        throw new Error(`El rol ${rol} no esta registrado`); 
+        throw new Error(`El rol ${rol} no esta registrado`);
     }
-    
+
 };
 const emailExiste = async (correo) => {
-    const existeEmail = await Usuario.findOne({correo});
+    const existeEmail = await Usuario.findOne({ correo });
     if (existeEmail) {
-        throw new Error(`El correo ${correo} ya esta registrado`); 
+        throw new Error(`El correo ${correo} ya esta registrado`);
 
     }
 }
 const existeUsuarioPorId = async (id) => {
-    const existeID = await Usuario.findOne({id});
+    const existeID = await Usuario.findOne({ id });
     if (!existeID) {
-        throw new Error(`El id ${id} no existe`); 
+        throw new Error(`El id ${id} no existe`);
 
     }
 }
 const existeCategoriaPorId = async (id) => {
     const existeID = await Categoria.findById(id);
     if (!existeID) {
-        throw new Error(`El id ${id} no existe`); 
+        throw new Error(`El id ${id} no existe`);
+
+    }
+}
+const existeProductoPorId = async (id) => {
+    const existeID = await Producto.findById(id);
+    if (!existeID) {
+        throw new Error(`El id ${id} del producto no existe`);
+
+    }
+}
+const existeNombreProducto = async (nombre) => {
+    const nombre2 = nombre.toUpperCase();
+    const existe = await Producto.findOne({
+       nombre: nombre2
+    });
+    if (existe) {
+        throw new Error(`El producto ${existe.nombre}, ya existe `);
 
     }
 }
@@ -35,5 +52,7 @@ module.exports = {
     esRolValido,
     emailExiste,
     existeUsuarioPorId,
-    existeCategoriaPorId
+    existeCategoriaPorId,
+    existeProductoPorId,
+    existeNombreProducto,
 }
