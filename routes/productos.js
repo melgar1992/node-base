@@ -34,7 +34,7 @@ router.post('/', [
 //actualizar producto
 router.put('/:id', [
     check('id', 'No es un ID valido').isMongoId(),
-    validarJWT,
+   
     check('nombre', 'El nombre es obligatorio').notEmpty(),
     validarCampos,
     check('id').custom(existeProductoPorId),
@@ -46,6 +46,7 @@ router.put('/:id', [
 //eliminar producto
 router.delete('/:id', [
     check('id', 'No es un ID valido').isMongoId(),
+    validarJWT,
     check('id').custom(existeProductoPorId),
     validarCampos,
 ], productoDelete);
