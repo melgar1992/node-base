@@ -72,7 +72,6 @@ const obtenerProducto = async (req = request, res = response) => {
 
 }
 
-
 //Editar producto
 const actualizarProducto = async (req = request, res = response) => {
     const { id } = req.params;

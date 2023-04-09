@@ -11,8 +11,7 @@ const ProductoSchema = Schema({
     },
     estado: {
         type: Boolean,
-        default: true,
-        required: true,
+        default: true, required: true,
     },
     usuario: {
         type: Schema.Types.ObjectId,

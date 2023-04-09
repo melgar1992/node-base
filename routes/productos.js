@@ -26,19 +26,17 @@ router.get('/:id', [
 router.post('/', [
     validarJWT,
     check('nombre', 'El nombre es obligatorio').notEmpty(),
-    validarCampos,
+    check('categoria','No es un id de Mongo').isMongoId(),
     check('nombre').custom(existeNombreProducto),
-    validarCampos
+    validarCampos,
 ], crearProducto);
 
 //actualizar producto
 router.put('/:id', [
+    validarJWT,
     check('id', 'No es un ID valido').isMongoId(),
-   
     check('nombre', 'El nombre es obligatorio').notEmpty(),
-    validarCampos,
     check('id').custom(existeProductoPorId),
-    validarCampos,
     check('nombre').custom(existeNombreProducto),
     validarCampos
 ], actualizarProducto);
