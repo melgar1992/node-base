@@ -101,6 +101,7 @@ const actualizarCategoria = async (req = request, res = response) => {
     });
 }
 
+//borrarCategoria - estado: false
 const categoriaDelete = async (req, res = response) => {
     const { id } = req.params;
     const categoria = await Categoria.findByIdAndUpdate(id, { estado: false });
@@ -110,7 +111,6 @@ const categoriaDelete = async (req, res = response) => {
 };
 
 
-//borrarCategoria - estado: false
 
 module.exports = {
     crearCategoria,
