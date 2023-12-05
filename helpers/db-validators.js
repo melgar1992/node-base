@@ -41,13 +41,23 @@ const existeProductoPorId = async (id) => {
 const existeNombreProducto = async (nombre) => {
     const nombre2 = nombre.toUpperCase();
     const existe = await Producto.findOne({
-       nombre: nombre2
+        nombre: nombre2
     });
     if (existe) {
         throw new Error(`El producto ${existe.nombre}, ya existe `);
 
     }
 }
+//Validar colecciones permitidas
+
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`la colecccion ${coleccion} no es permitida, ${colecciones} son permitidas`);
+    }
+    return true;
+}
+
 module.exports = {
     esRolValido,
     emailExiste,
@@ -55,4 +65,5 @@ module.exports = {
     existeCategoriaPorId,
     existeProductoPorId,
     existeNombreProducto,
+    coleccionesPermitidas,
 }
